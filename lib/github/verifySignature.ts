@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import crypto from "crypto";
 
-const sigHeaderName = "HTTP_X_HUB_SIGNATURE_256".toLowerCase();
+const sigHeaderName = "x-hub-signature-256";
 
 export default function verifySignature(req: NextApiRequest, body: string) {
   const sig = Buffer.from((req.headers[sigHeaderName] as string) || "", "utf8");

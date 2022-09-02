@@ -13,11 +13,14 @@ if (process.env.NODE_ENV == "development") {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.info("Fikk event fra GitHub");
   try {
     const body: string = await getRawBody(req, true);
     await verifySignature(req, body);
     githubEvents.emit("push", JSON.parse(body));
+    console.info("Distribuerer event fra GitHub via SSE");
   } catch (e) {
+    console.error("Kunne ikke verifisere signaturen");
     return res.status(401).end();
   }
 

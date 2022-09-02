@@ -25,4 +25,4 @@ spec:
      - {{url}}
   {{/each}}
   envFrom:
-    - secret: WEBHOOK_SECRET
+    - secret: kodestrom-webhook-token
