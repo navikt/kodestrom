@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as vis from "vis-network";
 import { DataSet } from "vis-data";
-import { PushEvent } from "../lib/github/types";
+import { PushEvent } from "../lib/github/api";
 import useEventSource from "../lib/useEventSource";
 
 interface RepositoryNode extends vis.Node {

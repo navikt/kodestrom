@@ -1,4 +1,4 @@
-import { PushEvent, Repository } from "./types";
+import { PushEvent, Repository } from "./api";
 import crypto from "crypto";
 
 function hash(input: string) {

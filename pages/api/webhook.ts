@@ -4,6 +4,7 @@ import { mockPushEvent } from "../../lib/github/mock";
 import verifySignature from "../../lib/github/verifySignature";
 import getRawBody from "raw-body";
 import logger from "../../lib/logger";
+import { eventHeaderName } from "../../lib/github/api";
 
 export const githubEvents = new EventEmitter();
 
@@ -18,8 +19,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const body: string = await getRawBody(req, true);
     await verifySignature(req, body);
-    githubEvents.emit("push", JSON.parse(body));
-    logger.info("Distribuerer event fra GitHub via SSE");
+
+    const eventType = (req.headers[eventHeaderName] as string) || "push";
+    logger.info(`Distribuerer event=${eventType} fra GitHub via SSE`);
+    githubEvents.emit(eventType, JSON.parse(body));
   } catch (e) {
     logger.error("Kunne ikke verifisere signaturen");
     return res.status(401).end();

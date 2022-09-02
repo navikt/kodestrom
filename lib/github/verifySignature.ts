@@ -1,10 +1,12 @@
 import { NextApiRequest } from "next";
 import crypto from "crypto";
-
-const sigHeaderName = "x-hub-signature-256";
+import { signatureHeaderName } from "./api";
 
 export default function verifySignature(req: NextApiRequest, body: string) {
-  const sig = Buffer.from((req.headers[sigHeaderName] as string) || "", "utf8");
+  const sig = Buffer.from(
+    (req.headers[signatureHeaderName] as string) || "",
+    "utf8"
+  );
   const hmac = crypto.createHmac(
     "sha256",
     process.env.WEBHOOK_SECRET as string
@@ -15,7 +17,7 @@ export default function verifySignature(req: NextApiRequest, body: string) {
   );
   if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
     throw new Error(
-      `Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`
+      `Request body digest (${digest}) did not match ${signatureHeaderName} (${sig})`
     );
   }
 }

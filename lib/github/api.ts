@@ -13,3 +13,6 @@ export interface PushEvent {
   commits: string[];
   repository: Repository;
 }
+
+export const eventHeaderName = "x-github-event";
+export const signatureHeaderName = "x-hub-signature-256";
