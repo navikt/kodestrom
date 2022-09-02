@@ -1,7 +1,7 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: aktivitet
+  name: kodestrom
   namespace: teamdagpenger
   labels:
     team: teamdagpenger
@@ -21,8 +21,7 @@ spec:
     requests:
       cpu: 200m
       memory: 256Mi
-
   ingresses:
-  {{ #each ingresses as |url| }}
-    - {{ url }}
-  {{ /each }}
+  {{#each ingresses as |url|}}
+     - {{url}}
+  {{/each}}
