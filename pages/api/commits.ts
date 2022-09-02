@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { EventStream } from "../../lib/eventStream";
-import crypto from "crypto";
-import { PushEvent, Repository } from "../../lib/github/types";
 import { githubEvents } from "./webhook";
 
 const sse = new EventStream();
 
-githubEvents.on("hook", (body) => {
+githubEvents.on("push", (body) => {
   sse.send(body);
 });
 

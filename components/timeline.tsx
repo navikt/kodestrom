@@ -93,7 +93,7 @@ export default function Timeline() {
 
   return (
     <>
-      {connected ? "Følger med" : "Har mista kontakten"}
+      {connected ? "Følger med" : "Venter på at noen koder litt"}
       <div ref={target} style={{ height: "100vh" }}></div>;
     </>
   );

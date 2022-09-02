@@ -1,51 +1,33 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PushEvent, Repository } from "../../lib/github/types";
 import EventEmitter from "events";
-import crypto from "crypto";
+import { mockPushEvent } from "../../lib/github/mock";
+import verifySignature from "../../lib/github/verifySignature";
+import getRawBody from "raw-body";
 
 export const githubEvents = new EventEmitter();
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  const body = req.body;
-  githubEvents.emit("hook", body);
+if (process.env.NODE_ENV == "development") {
+  setInterval(() => {
+    githubEvents.emit("push", mockPushEvent());
+  }, 1500);
+}
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const body: string = await getRawBody(req, true);
+    await verifySignature(req, body);
+    githubEvents.emit("push", JSON.parse(body));
+  } catch (e) {
+    return res.status(401).end();
+  }
 
   res.status(200).end();
 };
 
 export default handler;
 
-if (process.env.NODE_ENV == "development") {
-  setInterval(() => {
-    githubEvents.emit("hook", pushEvent());
-  }, 1500);
-}
-
-function hash(input: string) {
-  return crypto.createHash("sha1").update(input).digest("hex");
-}
-
-function pushEvent(): PushEvent {
-  let repository: () => Repository = () =>
-    Math.random() > 0.5
-      ? {
-          id: 186853002,
-          node_id: "MDEwOlJlcG9zaXRvcnkxODY4NTMwMDI=",
-          name: "Hello-World",
-          full_name: "Codertocat/Hello-World",
-          private: false,
-        }
-      : {
-          id: 186853003,
-          node_id: "OlJlcG9zaXRvcnkxODY4NTMwMDi=",
-          name: "dp-dagpenger",
-          full_name: "navikt/dp-dagpegnger",
-          private: false,
-        };
-  return {
-    ref: "refs/branches/main",
-    before: hash(Math.random().toString()),
-    after: hash(Math.random().toString()),
-    commits: [],
-    repository: repository(),
-  };
-}
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
