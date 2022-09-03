@@ -28,5 +28,13 @@ export function mockPushEvent(): PushEvent {
     after: hash(Math.random().toString()),
     commits: [],
     repository: repository(),
+    sender: {
+      login: "Codertocat",
+      id: 21031067,
+      node_id: "MDQ6VXNlcjIxMDMxMDY3",
+      avatar_url: "https://avatars1.githubusercontent.com/u/21031067?v=4",
+      gravatar_id: "",
+      html_url: "https://github.com/Codertocat",
+    },
   };
 }

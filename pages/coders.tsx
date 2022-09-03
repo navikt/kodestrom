@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Commits from "../components/commits";
+import Coders from "../components/coders";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Commits />
+        <Coders />
       </main>
     </div>
   );

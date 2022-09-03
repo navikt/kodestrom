@@ -38,7 +38,7 @@ const defaultCommit: vis.Node = {
 const displayedNodes: vis.DataSet<AllNodes> = new DataSet();
 const displayedEdges: vis.DataSetEdges = new DataSet();
 
-export default function Timeline() {
+export default function Commits() {
   const { connected } = useEventSource<PushEvent>("/api/commits", handleEvent);
   const target = useRef(null);
   const network = useRef<vis.Network>();

@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
-import verifySignature from "./verifySignature";
-import { signatureHeaderName } from "./api";
+import verifySignature from "../../../lib/github/verifySignature";
+import { signatureHeaderName } from "../../../lib/github/api";
 
 test("verifies signatures", () => {
   process.env.WEBHOOK_SECRET = "foo";
